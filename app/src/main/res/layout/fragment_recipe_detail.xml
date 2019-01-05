@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:layout_marginBottom="16dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/margin">
+
+        <TextView android:id="@+id/tv_ingredients"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_height="wrap_content"  android:layout_width="match_parent"
+            android:textSize="@dimen/medium_textsize"
+            android:background="@drawable/rounded_edge"
+            android:padding="@dimen/item_padding"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_recipe_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin"
+            xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

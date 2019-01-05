@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.bakingtime.model.Ingredient;
@@ -20,9 +21,15 @@ import butterknife.ButterKnife;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
     private ArrayList<Recipes> mRecipeItems;
+    final private ListItemClickListener listItemClickListener;
 
-    public RecipeAdapter(ArrayList<Recipes> recipes){
+    public RecipeAdapter(ArrayList<Recipes> recipes, ListItemClickListener listItemClickListener){
         mRecipeItems = recipes;
+        this.listItemClickListener = listItemClickListener;
+    }
+
+    public interface ListItemClickListener{
+        void onListItemClick(Recipes recipes);
     }
 
     @NonNull
@@ -48,31 +55,29 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return mRecipeItems.size();
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder{
+    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.tv_item_recipe)
         TextView mRecipeTextView;
+
+        @BindView(R.id.recipes_items_container)
+        LinearLayout mLinearLayout;
 
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         void bind(int listIndex){
             mRecipeTextView.setText(mRecipeItems.get(listIndex).getName());
+        }
 
-            /*List<Ingredient> ingredients = mRecipeItems[listIndex].getIngredients();
-
-            String ingredients_list = "";
-
-            for (Ingredient listItem : ingredients) {
-                System.out.println(listItem);
-                ingredients_list = ingredients_list + "," + listItem.getIngredient();
-            }
-
-
-            mIngredientsListTextview.setText(ingredients_list);*/
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            listItemClickListener.onListItemClick(mRecipeItems.get(clickedPosition));
         }
     }
 

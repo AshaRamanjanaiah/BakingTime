@@ -3,24 +3,34 @@ package com.example.android.bakingtime;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
-import com.example.android.bakingtime.model.Recipes;
-import com.example.android.bakingtime.utils.JSONUtils;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.my_toolbar)
+    Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainRecipeFragment mainRecipeFragment = new MainRecipeFragment();
+        ButterKnife.bind(this);
+        setSupportActionBar(myToolbar);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(savedInstanceState == null) {
 
-        fragmentManager.beginTransaction()
-                .add(R.id.recipie_container, mainRecipeFragment)
-                .commit();
+            MainRecipeFragment mainRecipeFragment = new MainRecipeFragment();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.recipie_container, mainRecipeFragment)
+                    .commit();
+        }
 
     }
 }

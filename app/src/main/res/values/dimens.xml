@@ -5,4 +5,5 @@
     <dimen name="item_padding">6dp</dimen>
     <dimen name="main_item_height">100dp</dimen>
     <dimen name="recipe_text_width">250dp</dimen>
+    <dimen name="medium_textsize">22sp</dimen>
 </resources>
