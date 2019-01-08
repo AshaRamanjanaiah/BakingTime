@@ -71,7 +71,7 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             mRecipeList.setLayoutManager(layoutManager);
         }else{
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3 );
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2 );
             mRecipeList.setLayoutManager(gridLayoutManager);
         }
 

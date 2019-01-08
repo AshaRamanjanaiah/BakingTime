@@ -1,5 +1,6 @@
 package com.example.android.bakingtime;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,8 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.bakingtime.model.Ingredient;
 import com.example.android.bakingtime.model.Recipes;
+import com.example.android.bakingtime.model.Step;
 import com.example.android.bakingtime.utils.Constants;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +34,24 @@ public class RecipeDetailFragment extends Fragment {
 
     @BindView(R.id.rv_recipe_details)
     RecyclerView mRecipeDetails;
+
+    OnStepsClickListener mCallback;
+
+    public interface OnStepsClickListener{
+        void onStepsSelected(Step step, String dataType, int position);
+        void onIngredientsSelected(List<Ingredient> ingredient, String dataType);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnStepsClickListener) context;
+        } catch (ClassCastException e){
+            throw new ClassCastException((context.toString()) + "must implement OnStepsClickListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -48,6 +71,12 @@ public class RecipeDetailFragment extends Fragment {
 
 
         mRecipeIngredients.setText(getResources().getString(R.string.ingredients));
+        mRecipeIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onIngredientsSelected(recipe.getIngredients(), Constants.INGREDIENTS_FOR_COOKING);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecipeDetails.setLayoutManager(layoutManager);
@@ -56,7 +85,7 @@ public class RecipeDetailFragment extends Fragment {
 
         if(recipe != null) {
 
-            RecipeDetailAdapter recipeDetailAdapter = new RecipeDetailAdapter(recipe.getSteps());
+            RecipeDetailAdapter recipeDetailAdapter = new RecipeDetailAdapter(recipe.getSteps(), (RecipeDetailActivity)getActivity());
 
             mRecipeDetails.setAdapter(recipeDetailAdapter);
             mRecipeDetails.setNestedScrollingEnabled(false);

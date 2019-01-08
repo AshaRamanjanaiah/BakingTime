@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.android.bakingtime"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -36,4 +36,10 @@ dependencies {
 
     //RecyclerView
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    //Exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 }

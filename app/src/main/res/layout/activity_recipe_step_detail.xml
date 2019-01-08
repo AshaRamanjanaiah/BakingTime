@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".RecipeDetailActivity">
+    tools:context=".RecipeStepDetailActivity"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/detail_act_toolbar"
+        android:id="@+id/detail_step_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -16,11 +16,10 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+
     <FrameLayout
-        android:id="@+id/recipe_detail_container"
+        android:id="@+id/recipe_step_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin">
-    </FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 
 </LinearLayout>

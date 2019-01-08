@@ -16,11 +16,28 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <FrameLayout
-        android:id="@+id/recipe_detail_container"
+    <LinearLayout
+        android:id="@+id/twopane_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin">
+        android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/recipe_detail_container"
+        android:layout_width="350dp"
+        android:layout_height="match_parent">
     </FrameLayout>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey"></View>
+
+        <FrameLayout
+            android:id="@+id/recipe_step_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
+    </LinearLayout>
 </LinearLayout>
