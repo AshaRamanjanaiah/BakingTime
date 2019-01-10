@@ -1,5 +1,7 @@
 package com.example.android.bakingtime;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -52,6 +54,10 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
     public MainRecipeFragment(){
 
+    }
+
+    public ArrayList<Recipes> getRecipes() {
+        return recipes;
     }
 
     @Nullable
@@ -131,6 +137,12 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
                     Collections.addAll(recipes, recipeList);
                     mRecipeList.setAdapter(new RecipeAdapter(recipes, MainRecipeFragment.this));
+
+                    RecipeWidgetProvider.sendRefreshBroadcast(getActivity(), recipes);
+
+                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+                    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity(), RecipeWidgetProvider.class));
+                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
 
                     Log.d(TAG, "Successfully got Recipes data");
                 }else{
