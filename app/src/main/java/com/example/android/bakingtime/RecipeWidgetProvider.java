@@ -39,8 +39,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         PendingIntent titlePendingIntent = PendingIntent.getActivity(context, 0, titleIntent, 0);
         views.setOnClickPendingIntent(R.id.appwidget_text, titlePendingIntent);
 
-        Intent intent = new Intent(context, MyWidgetRemoteViewsService.class);
-        views.setRemoteAdapter(R.id.widget_listView, intent);
+        Intent intentService = new Intent(context, MyWidgetRemoteViewsService.class);
+        views.setRemoteAdapter(R.id.widget_listView, intentService);
 
         Intent clickIntentTemplate = new Intent(context, RecipeDetailActivity.class);
         PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
@@ -71,10 +71,10 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     }
 
     public static void sendRefreshBroadcast(Context context, ArrayList<Recipes> recipes) {
-        Intent intent = new Intent(ACTION_RECIPE_UPDATE);
-        intent.setComponent(new ComponentName(context, RecipeWidgetProvider.class));
-        intent.putParcelableArrayListExtra(Constants.RECIPIES_LIST, recipes);
-        context.sendBroadcast(intent);
+        Intent intentSend = new Intent(ACTION_RECIPE_UPDATE);
+        intentSend.setComponent(new ComponentName(context, RecipeWidgetProvider.class));
+        intentSend.putParcelableArrayListExtra(Constants.RECIPIES_LIST, recipes);
+        context.sendBroadcast(intentSend);
     }
 
     @Override
@@ -89,5 +89,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         }
         super.onReceive(context, intent);
     }
+
 }
 

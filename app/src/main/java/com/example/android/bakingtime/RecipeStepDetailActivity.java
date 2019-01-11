@@ -66,7 +66,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
     public void extractDataFromIntent(Intent intent){
         if(intent.hasExtra(Constants.STEP_FOR_COOKING)){
 
-            step = intent.getParcelableExtra("step");
+            step = intent.getParcelableExtra(Constants.STEP_FOR_COOKING);
             mRecipeName = intent.getExtras().getString(Constants.RECIPE);
             bundle.putParcelable(Constants.STEP_FOR_COOKING, step);
 

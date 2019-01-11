@@ -140,10 +140,6 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
                     RecipeWidgetProvider.sendRefreshBroadcast(getActivity(), recipes);
 
-                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
-                    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity(), RecipeWidgetProvider.class));
-                    appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
-
                     Log.d(TAG, "Successfully got Recipes data");
                 }else{
                     Log.d(TAG, "Failed to get response");
