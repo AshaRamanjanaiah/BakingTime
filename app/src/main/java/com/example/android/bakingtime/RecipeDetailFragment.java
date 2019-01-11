@@ -35,7 +35,7 @@ public class RecipeDetailFragment extends Fragment {
     @BindView(R.id.rv_recipe_details)
     RecyclerView mRecipeDetails;
 
-    OnStepsClickListener mCallback;
+    private OnStepsClickListener mCallback;
 
     public interface OnStepsClickListener{
         void onStepsSelected(Step step, String dataType, int position);
@@ -60,7 +60,7 @@ public class RecipeDetailFragment extends Fragment {
         if(savedInstanceState != null && savedInstanceState.containsKey(Constants.RECIPE)){
             recipe = savedInstanceState.getParcelable(Constants.RECIPE);
         }else {
-            if(getArguments().containsKey(Constants.RECIPE)) {
+            if(getArguments() != null && getArguments().containsKey(Constants.RECIPE)) {
                 recipe = getArguments().getParcelable(Constants.RECIPE);
             }
         }

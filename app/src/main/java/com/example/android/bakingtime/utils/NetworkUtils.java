@@ -4,7 +4,7 @@ import android.webkit.MimeTypeMap;
 
 public class NetworkUtils {
 
-    public static String getMimeType(String fileUrl) {
+    private static String getMimeType(String fileUrl) {
         String extension = MimeTypeMap.getFileExtensionFromUrl(fileUrl);
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }

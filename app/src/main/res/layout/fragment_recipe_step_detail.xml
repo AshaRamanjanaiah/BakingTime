@@ -54,7 +54,8 @@
         <ImageView
             android:id="@+id/iv_thumbnailURL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/thumbnail_image"/>
 
         <TextView
             android:id="@+id/tv_description"

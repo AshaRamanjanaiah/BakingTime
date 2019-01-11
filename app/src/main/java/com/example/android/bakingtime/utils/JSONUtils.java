@@ -22,14 +22,13 @@ public class JSONUtils {
 
         AssetManager assetManager = context.getAssets();
         ArrayList<Recipes> recipesArrayList = new ArrayList<>();
-        Recipes[] recipes = null;
-        InputStream in = null;
+
         try {
-            in = assetManager.open("baking.json");
+            InputStream in = assetManager.open("baking.json");
             Gson gsonRead = new Gson();
             BufferedReader buffer=new BufferedReader(new InputStreamReader(in));
 
-            recipes = gsonRead.fromJson(buffer, Recipes[].class);
+            Recipes[] recipes = gsonRead.fromJson(buffer, Recipes[].class);
 
             Collections.addAll(recipesArrayList, recipes);
 

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.example.android.bakingtime.model.Ingredient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class RecipeIngredientAdapter extends RecyclerView.Adapter<RecipeIngredientAdapter.RecipeIngredientViewHolder> {
 
-    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<Ingredient> ingredients;
 
     public RecipeIngredientAdapter(List<Ingredient> ingredients){
         this.ingredients = ingredients;
@@ -32,9 +31,7 @@ public class RecipeIngredientAdapter extends RecyclerView.Adapter<RecipeIngredie
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.recipe_ingredients_item, parent, false);
 
-        RecipeIngredientViewHolder recipeIngredientViewHolder = new RecipeIngredientViewHolder(view);
-
-        return recipeIngredientViewHolder;
+        return new RecipeIngredientViewHolder(view);
     }
 
     @Override

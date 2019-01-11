@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.android.bakingtime.model.Ingredient;
 import com.example.android.bakingtime.model.Recipes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,9 +38,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         View view = inflater.inflate(R.layout.recipe_list_item, parent, false);
 
-        RecipeViewHolder recipeViewHolder = new RecipeViewHolder(view);
-
-        return recipeViewHolder;
+        return new RecipeViewHolder(view);
     }
 
     @Override

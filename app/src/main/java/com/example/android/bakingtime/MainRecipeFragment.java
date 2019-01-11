@@ -1,7 +1,5 @@
 package com.example.android.bakingtime;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -37,15 +35,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListItemClickListener {
 
-    public static final String TAG = MainRecipeFragment.class.getSimpleName();
+    private static final String TAG = MainRecipeFragment.class.getSimpleName();
 
-    private RecipeAdapter recipeAdapter;
-
-    ArrayList<Recipes> recipes = new ArrayList<>();
+    private ArrayList<Recipes> recipes = new ArrayList<>();
 
     private static final String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
-
-    private RecipeAPI recipeAPI;
 
     @BindView(R.id.rv_recipes)
     RecyclerView mRecipeList;
@@ -83,7 +77,7 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
         mRecipeList.setHasFixedSize(true);
 
-        recipeAdapter = new RecipeAdapter(recipes, this);
+        RecipeAdapter recipeAdapter = new RecipeAdapter(recipes, this);
 
         mRecipeList.setAdapter(recipeAdapter);
 
@@ -102,7 +96,7 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
         unbinder.unbind();
     }
 
-    public static boolean isTablet(Context context) {
+    private static boolean isTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
@@ -115,7 +109,8 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
         startActivity(intent);
     }
 
-    public void createRecipesAPI(){
+    private void createRecipesAPI(){
+        RecipeAPI recipeAPI;
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -135,7 +130,9 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
                     Recipes[] recipeList = response.body();
 
-                    Collections.addAll(recipes, recipeList);
+                    if(recipeList != null){
+                        Collections.addAll(recipes, recipeList);
+                    }
                     mRecipeList.setAdapter(new RecipeAdapter(recipes, MainRecipeFragment.this));
 
                     RecipeWidgetProvider.sendRefreshBroadcast(getActivity(), recipes);

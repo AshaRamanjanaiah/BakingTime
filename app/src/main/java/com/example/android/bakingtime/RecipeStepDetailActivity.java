@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import com.example.android.bakingtime.model.Ingredient;
 import com.example.android.bakingtime.model.Step;
@@ -24,10 +23,8 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_step_toolbar)
     Toolbar mDetailStepActivityToolbar;
 
-    private Step step = null;
     private String mRecipeName;
 
-    private List<Ingredient> ingredients = new ArrayList<>();
     private Bundle bundle = new Bundle();
 
     @Override
@@ -55,7 +52,7 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         }
     }
 
-    public void setToolbar(){
+    private void setToolbar(){
         setSupportActionBar(mDetailStepActivityToolbar);
         RecipeStepDetailActivity.this.setTitle(mRecipeName);
 
@@ -63,17 +60,21 @@ public class RecipeStepDetailActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    public void extractDataFromIntent(Intent intent){
+    private void extractDataFromIntent(Intent intent){
         if(intent.hasExtra(Constants.STEP_FOR_COOKING)){
 
-            step = intent.getParcelableExtra(Constants.STEP_FOR_COOKING);
-            mRecipeName = intent.getExtras().getString(Constants.RECIPE);
+          Step step = intent.getParcelableExtra(Constants.STEP_FOR_COOKING);
+            if(intent.hasExtra(Constants.RECIPE)){
+                mRecipeName = intent.getExtras().getString(Constants.RECIPE);
+            }
             bundle.putParcelable(Constants.STEP_FOR_COOKING, step);
 
         }else if(intent.hasExtra(Constants.INGREDIENTS_FOR_COOKING)){
 
-            ingredients = intent.getParcelableArrayListExtra(Constants.INGREDIENTS_FOR_COOKING);
-            mRecipeName = intent.getExtras().getString(Constants.RECIPE);
+            List<Ingredient> ingredients = intent.getParcelableArrayListExtra(Constants.INGREDIENTS_FOR_COOKING);
+            if(intent.hasExtra(Constants.RECIPE)) {
+                mRecipeName = intent.getExtras().getString(Constants.RECIPE);
+            }
             bundle.putParcelableArrayList(Constants.INGREDIENTS_FOR_COOKING, (ArrayList<? extends Parcelable>) ingredients);
         }
     }

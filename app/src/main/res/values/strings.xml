@@ -5,4 +5,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="label_natella_pie">Nutella Pie</string>
+    <string name="right_arrow">Right Arrow</string>
+    <string name="thumbnail_image">Thumbnail Image</string>
 </resources>

@@ -32,7 +32,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -64,7 +63,6 @@ public class RecipeStepDetailFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    private List<Ingredient> ingredients = new ArrayList<>();
     private Step step;
 
     private SimpleExoPlayer mExoPlayer;
@@ -75,6 +73,8 @@ public class RecipeStepDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+
+        List<Ingredient> ingredients;
 
             if (getArguments() != null && getArguments().containsKey(Constants.INGREDIENTS_FOR_COOKING)) {
                 ingredients = getArguments().getParcelableArrayList(Constants.INGREDIENTS_FOR_COOKING);
@@ -99,7 +99,7 @@ public class RecipeStepDetailFragment extends Fragment {
         return rootView;
     }
 
-   public void pupulateUI(ViewGroup container){
+   private void pupulateUI(ViewGroup container){
 
        if(!step.getVideoURL().isEmpty()){
            if(NetworkUtils.isFileImage(step.getVideoURL())){
@@ -131,7 +131,7 @@ public class RecipeStepDetailFragment extends Fragment {
        mDescriptionTextview.setText(step.getDescription());
    }
 
-    public void initializePlayer(Uri mediaUri) {
+    private void initializePlayer(Uri mediaUri) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();

@@ -6,14 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.example.android.bakingtime.model.Recipes;
 import com.example.android.bakingtime.model.Step;
 import com.example.android.bakingtime.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,14 +18,14 @@ import butterknife.ButterKnife;
 
 public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.RecipieDetailViewholder> {
 
-    private List<Step> steps = new ArrayList<>();
+    private List<Step> steps;
 
     public RecipeDetailAdapter(List<Step> steps, RecipeDetailFragment.OnStepsClickListener listener){
         this.steps = steps;
         mCallback = listener;
     }
 
-    RecipeDetailFragment.OnStepsClickListener mCallback;
+    private RecipeDetailFragment.OnStepsClickListener mCallback;
 
 
     @NonNull
@@ -38,9 +35,7 @@ public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapte
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.recipe_detail_item, parent, false);
 
-        RecipieDetailViewholder recipieDetailViewholder = new RecipieDetailViewholder(view);
-
-        return recipieDetailViewholder;
+        return new RecipieDetailViewholder(view);
     }
 
     @Override

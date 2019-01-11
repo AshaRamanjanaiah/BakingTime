@@ -2,19 +2,13 @@ package com.example.android.bakingtime;
 
 import android.content.Intent;
 import android.os.Parcelable;
-import android.provider.SyncStateContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.bakingtime.model.Ingredient;
 import com.example.android.bakingtime.model.Recipes;
@@ -35,7 +29,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     @BindView(R.id.twopane_linear_layout)
     @Nullable LinearLayout mLinearLayout;
 
-    Recipes recipe = null;
+    private Recipes recipe = null;
 
     private boolean mTwoPane;
 
@@ -88,7 +82,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         setToolbar();
     }
 
-    public void setToolbar(){
+    private void setToolbar(){
         setSupportActionBar(mDetailActivityToolbar);
         RecipeDetailActivity.this.setTitle(recipe.getName());
 

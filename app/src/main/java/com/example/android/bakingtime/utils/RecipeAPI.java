@@ -2,8 +2,6 @@ package com.example.android.bakingtime.utils;
 
 import com.example.android.bakingtime.model.Recipes;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 

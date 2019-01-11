@@ -23,7 +23,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     private static final String ACTION_RECIPE_UPDATE = "com.example.android.bakingtime.RECIPE_UPDATE";
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
         CharSequence widgetText = context.getString(R.string.label_natella_pie);
@@ -80,7 +80,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if (action.equals(ACTION_RECIPE_UPDATE)) {
+        if (action != null && action.equals(ACTION_RECIPE_UPDATE)) {
             recipes = intent.getParcelableArrayListExtra(Constants.RECIPIES_LIST);
             // refresh all widgets
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
