@@ -7,6 +7,7 @@
     <dimen name="recipe_text_width">250dp</dimen>
     <dimen name="medium_textsize">22sp</dimen>
     <dimen name="item_padding_top">10dp</dimen>
+    <dimen name="widget_layout_margin">4dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorPrimary"
-    android:padding="@dimen/widget_margin"
+    android:layout_margin="@dimen/widget_margin"
+    android:padding="@dimen/widget_layout_margin"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,9 +17,7 @@
             android:id="@+id/appwidget_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/appwidget_text"
+            android:contentDescription="@string/label_natella_pie"
             android:text="@string/label_natella_pie"
             android:textColor="@android:color/white"
             android:textSize="@dimen/widget_title_textsize"
