@@ -172,7 +172,7 @@ public class RecipeStepDetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (mIngredientTitleTextview.getVisibility() == View.GONE && Util.SDK_INT > 23) {
+        if ((mIngredientTitleTextview.getVisibility() == View.GONE) && !step.getVideoURL().equals("") && Util.SDK_INT > 23) {
             initializePlayer(Uri.parse(step.getVideoURL()));
         }
     }
@@ -180,8 +180,8 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mIngredientTitleTextview.getVisibility() == View.GONE && (Util.SDK_INT <= 23 || mExoPlayer == null)) {
-            initializePlayer(Uri.parse(step.getThumbnailURL()));
+        if (mIngredientTitleTextview.getVisibility() == View.GONE && !step.getVideoURL().equals("") && (Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            initializePlayer(Uri.parse(step.getVideoURL()));
         }
     }
 
@@ -200,7 +200,7 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (mIngredientTitleTextview.getVisibility() == View.GONE  && Util.SDK_INT > 23) {
+        if (mIngredientTitleTextview.getVisibility() == View.GONE && !step.getVideoURL().equals("") && Util.SDK_INT > 23) {
             releasePlayer();
         }
     }
@@ -208,7 +208,7 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(mIngredientTitleTextview.getVisibility() == View.GONE) {
+        if(mIngredientTitleTextview.getVisibility() == View.GONE && !step.getVideoURL().equals("")) {
             mStartPosition = mExoPlayer.getCurrentPosition();
             mIsPlayerReady = mExoPlayer.getPlayWhenReady();
             mStartWindow = mExoPlayer.getCurrentWindowIndex();
