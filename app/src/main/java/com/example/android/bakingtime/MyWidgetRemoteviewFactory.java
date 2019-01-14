@@ -8,6 +8,7 @@ import android.widget.RemoteViewsService;
 
 import com.example.android.bakingtime.model.Recipes;
 import com.example.android.bakingtime.utils.Constants;
+import com.example.android.bakingtime.utils.PrefUtils;
 
 import java.util.ArrayList;
 
@@ -50,13 +51,27 @@ public class MyWidgetRemoteviewFactory implements RemoteViewsService.RemoteViews
             return null;
         }
 
+        Recipes recipe = null;
+
+        String recipeName = PrefUtils.readfromDefaultSharedPreference(mContext);
+
+        if(!recipeName.equals("missing")) {
+            for (int i = 0; i < recipes.size(); i++) {
+                if (recipes.get(i).getName().equals(recipeName)) {
+                    recipe = recipes.get(i);
+                }
+            }
+        }else {
+            recipe = recipes.get(0);
+        }
+
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.collection_widget_list_item);
         if(recipes != null && !recipes.isEmpty()) {
-            rv.setTextViewText(R.id.tv_widgetRecipeItemName, recipes.get(0).getIngredients().get(position).getIngredient());
+            rv.setTextViewText(R.id.tv_widgetRecipeItemName, recipe.getIngredients().get(position).getIngredient());
         }
 
         Intent fillInIntent = new Intent();
-        fillInIntent.putExtra(Constants.RECIPE, recipes.get(0));
+        fillInIntent.putExtra(Constants.RECIPE, recipe);
         rv.setOnClickFillInIntent(R.id.widgetItemContainer, fillInIntent);
 
         return rv;

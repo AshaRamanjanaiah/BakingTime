@@ -1,5 +1,7 @@
 package com.example.android.bakingtime;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 
 import com.example.android.bakingtime.model.Recipes;
 import com.example.android.bakingtime.utils.Constants;
+import com.example.android.bakingtime.utils.PrefUtils;
 import com.example.android.bakingtime.utils.RecipeAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -104,6 +107,9 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
 
     @Override
     public void onListItemClick(Recipes recipe) {
+
+        PrefUtils.addToDefaultSharedPreference(getActivity(), recipe.getName());
+
         Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
         intent.putExtra(Constants.RECIPE, recipe);
         startActivity(intent);
@@ -135,7 +141,7 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
                     }
                     mRecipeList.setAdapter(new RecipeAdapter(recipes, MainRecipeFragment.this));
 
-                    RecipeWidgetProvider.sendRefreshBroadcast(getActivity(), recipes);
+                    sendRefreshBroadcast(recipes);
 
                     Log.d(TAG, "Successfully got Recipes data");
                 }else{
@@ -149,5 +155,16 @@ public class MainRecipeFragment extends Fragment implements RecipeAdapter.ListIt
                 Log.d(TAG, "Failed to get response");
             }
         });
+    }
+
+    public void sendRefreshBroadcast(ArrayList<Recipes> recipes){
+        Intent intentSend = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intentSend.setComponent(new ComponentName(getActivity(), RecipeWidgetProvider.class));
+        intentSend.putParcelableArrayListExtra(Constants.RECIPIES_LIST, recipes);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getActivity());
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(getActivity(), RecipeWidgetProvider.class));
+        intentSend.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        intentSend.putParcelableArrayListExtra(Constants.RECIPIES_LIST, recipes);
+        getActivity().sendBroadcast(intentSend);
     }
 }

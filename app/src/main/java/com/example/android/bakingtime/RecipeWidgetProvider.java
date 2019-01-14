@@ -3,7 +3,6 @@ package com.example.android.bakingtime;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
@@ -11,6 +10,7 @@ import android.widget.RemoteViews;
 
 import com.example.android.bakingtime.model.Recipes;
 import com.example.android.bakingtime.utils.Constants;
+import com.example.android.bakingtime.utils.PrefUtils;
 
 import java.util.ArrayList;
 
@@ -26,10 +26,12 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
+        String recipeName = PrefUtils.readfromDefaultSharedPreference(context);
+
         CharSequence widgetText = context.getString(R.string.label_natella_pie);
 
-        if(recipes != null && !recipes.isEmpty()){
-            widgetText = recipes.get(0).getName();
+        if(!recipeName.equals("missing")){
+            widgetText = recipeName;
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
@@ -57,7 +59,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+       // super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
@@ -70,21 +72,16 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 
-    public static void sendRefreshBroadcast(Context context, ArrayList<Recipes> recipes) {
-        Intent intentSend = new Intent(ACTION_RECIPE_UPDATE);
-        intentSend.setComponent(new ComponentName(context, RecipeWidgetProvider.class));
-        intentSend.putParcelableArrayListExtra(Constants.RECIPIES_LIST, recipes);
-        context.sendBroadcast(intentSend);
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
+
         final String action = intent.getAction();
-        if (action != null && action.equals(ACTION_RECIPE_UPDATE)) {
+        if (intent.hasExtra(Constants.RECIPIES_LIST) && action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)){//&& action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
             recipes = intent.getParcelableArrayListExtra(Constants.RECIPIES_LIST);
+            int[] appWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
             // refresh all widgets
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, RecipeWidgetProvider.class));
+            //int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, RecipeWidgetProvider.class));
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listView);
         }
         super.onReceive(context, intent);
