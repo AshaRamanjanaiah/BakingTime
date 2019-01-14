@@ -30,7 +30,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         CharSequence widgetText = context.getString(R.string.label_natella_pie);
 
-        if(!recipeName.equals("missing")){
+        if(!recipeName.equals(Constants.RECIPE_NAME_MISSING)){
             widgetText = recipeName;
         }
 

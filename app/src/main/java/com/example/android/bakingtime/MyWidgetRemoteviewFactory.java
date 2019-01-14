@@ -55,7 +55,7 @@ public class MyWidgetRemoteviewFactory implements RemoteViewsService.RemoteViews
 
         String recipeName = PrefUtils.readfromDefaultSharedPreference(mContext);
 
-        if(!recipeName.equals("missing")) {
+        if(!recipeName.equals(Constants.RECIPE_NAME_MISSING)) {
             for (int i = 0; i < recipes.size(); i++) {
                 if (recipes.get(i).getName().equals(recipeName)) {
                     recipe = recipes.get(i);
