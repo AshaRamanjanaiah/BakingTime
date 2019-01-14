@@ -18,6 +18,7 @@ import com.example.android.bakingtime.model.Ingredient;
 import com.example.android.bakingtime.model.Step;
 import com.example.android.bakingtime.utils.Constants;
 import com.example.android.bakingtime.utils.NetworkUtils;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -39,6 +40,15 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class RecipeStepDetailFragment extends Fragment {
+
+    private static final String PLAYER_POSITION = "position";
+    private static final String IS_PLAYER_READY = "is_player_ready";
+    private static final String PLAYER_WINDOW = "window";
+    private static final String RECIPE_STEP = "recipe_step";
+
+    private long mStartPosition;
+    private boolean mIsPlayerReady;
+    private int mStartWindow;
 
     @BindView(R.id.rv_recipe_ingredients)
     RecyclerView mIngredientsRecyclerview;
@@ -70,6 +80,15 @@ public class RecipeStepDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if(savedInstanceState != null){
+            mStartPosition = savedInstanceState.getInt(PLAYER_POSITION);
+            mIsPlayerReady = savedInstanceState.getBoolean(IS_PLAYER_READY);
+            mStartWindow = savedInstanceState.getInt(PLAYER_WINDOW);
+            step = savedInstanceState.getParcelable(RECIPE_STEP);
+        }else {
+            clearStartPosition();
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_step_detail, container, false);
         unbinder = ButterKnife.bind(this, rootView);
@@ -110,7 +129,6 @@ public class RecipeStepDetailFragment extends Fragment {
                        .into(mThumbnaulURLImageview);
            }else {
                mPlayerView.setVisibility(View.VISIBLE);
-               initializePlayer(Uri.parse(step.getVideoURL()));
            }
        }
 
@@ -123,7 +141,6 @@ public class RecipeStepDetailFragment extends Fragment {
                        .into(mThumbnaulURLImageview);
            }else {
                mPlayerView.setVisibility(View.VISIBLE);
-               initializePlayer(Uri.parse(step.getThumbnailURL()));
            }
        }
 
@@ -142,8 +159,29 @@ public class RecipeStepDetailFragment extends Fragment {
             String userAgent = Util.getUserAgent(getActivity(), "BakingTimeApp");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
+            boolean haveStartPosition = mStartWindow != C.INDEX_UNSET;
+            if (haveStartPosition) {
+                mExoPlayer.seekTo(mStartWindow, mStartPosition);
+            }
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(mIsPlayerReady);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (Util.SDK_INT > 23) {
+            initializePlayer(Uri.parse(step.getVideoURL()));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || mExoPlayer == null) {
+            initializePlayer(Uri.parse(step.getThumbnailURL()));
         }
     }
 
@@ -162,9 +200,34 @@ public class RecipeStepDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(mExoPlayer != null) {
+        if (Util.SDK_INT > 23) {
             releasePlayer();
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+       mStartPosition = mExoPlayer.getCurrentPosition();
+       mIsPlayerReady = mExoPlayer.getPlayWhenReady();
+       mStartWindow = mExoPlayer.getCurrentWindowIndex();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(PLAYER_POSITION, (int) mStartPosition);
+        outState.putBoolean(IS_PLAYER_READY, mIsPlayerReady);
+        outState.putInt(PLAYER_WINDOW, mStartWindow);
+        outState.putParcelable(RECIPE_STEP, step);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void clearStartPosition() {
+        mIsPlayerReady = true;
+        mStartPosition = C.TIME_UNSET;
+        mStartWindow = C.INDEX_UNSET;
+    }
 }
