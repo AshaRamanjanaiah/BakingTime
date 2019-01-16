@@ -35,6 +35,7 @@ In this project I have learnt:
 6. Picasso to load images in the application.
 
 To have a look at homescreen widget please check out below link:
+
 https://github.com/AshaRamanjanaiah/BakingTime/wiki 
 
 
