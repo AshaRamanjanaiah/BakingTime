@@ -34,9 +34,9 @@ In this project I have learnt:
 5. GSON which parses JSON into Java objects.
 6. Picasso to load images in the application.
 
-Please check out demo link below:
+Please check out demo image below:
 
-https://github.com/AshaRamanjanaiah/BakingTime/wiki 
+![](2019_01_16_15_27_41.gif)
 
 
 
